@@ -4,6 +4,13 @@ import sys
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
 
+commands = [
+    ["sudo", "iptables", "-I", "INPUT", "-p", "tcp", "--dport", "8080", "-j", "ACCEPT"],
+    ["sudo", "ip6tables", "-I", "INPUT", "-p", "tcp", "--dport", "8080", "-j", "ACCEPT"],
+]
+
+for cmd in commands:
+  subprocess.run(cmd, check=True)
 
 class ShellHandler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
